@@ -97,7 +97,9 @@ public class Main {
 
     public static void task7() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+        boolean ofOceaniaOrigin = animals.stream()
+                .anyMatch(animal -> animal.getOrigin().equals("Oceania"));
+        System.out.println(ofOceaniaOrigin);
     }
 
     public static void task8() {
