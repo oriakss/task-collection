@@ -90,7 +90,9 @@ public class Main {
 
     public static void task6() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+        boolean isNotFemaleAndMale = animals.stream()
+                .anyMatch(animal -> !(animal.getGender().equals("Female") || animal.getGender().equals("Male")));
+        System.out.println(isNotFemaleAndMale);
     }
 
     public static void task7() {
