@@ -9,6 +9,8 @@ import by.clevertec.model.Person;
 import by.clevertec.model.Student;
 import by.clevertec.util.Util;
 
+import javax.swing.text.NumberFormatter;
+import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
 
@@ -131,7 +133,12 @@ public class Main {
 
     public static void task11() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+        animals.stream()
+                .filter(animal -> animal.getOrigin().equals("Indonesian"))
+                .mapToInt(Animal::getAge)
+                .average()
+                .ifPresent(System.out::println);
+
     }
 
     public static void task12() {
