@@ -113,7 +113,12 @@ public class Main {
 
     public static void task9() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+        animals.stream()
+                .map(Animal::getBread)
+                .map(String::toCharArray)
+                .min(Comparator.comparing(chars -> chars.length))
+                .ifPresent(chars -> System.out.println(chars.length));
+
     }
 
     public static void task10() {
