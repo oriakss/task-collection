@@ -104,7 +104,11 @@ public class Main {
 
     public static void task8() {
         List<Animal> animals = Util.getAnimals();
-//        animals.stream() Продолжить ...
+        animals.stream()
+                .sorted(Comparator.comparing(Animal::getBread))
+                .limit(100)
+                .max(Comparator.comparing(Animal::getAge))
+                .ifPresent(animal -> System.out.println(animal.getAge()));
     }
 
     public static void task9() {
