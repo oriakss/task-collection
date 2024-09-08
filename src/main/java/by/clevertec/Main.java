@@ -9,8 +9,7 @@ import by.clevertec.model.Person;
 import by.clevertec.model.Student;
 import by.clevertec.util.Util;
 
-import javax.swing.text.NumberFormatter;
-import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 
@@ -143,7 +142,13 @@ public class Main {
 
     public static void task12() {
         List<Person> persons = Util.getPersons();
-//        persons.stream() Продолжить ...
+        persons.stream()
+                .filter(person -> person.getGender().equals("Male")
+                        && person.getDateOfBirth().isAfter(LocalDate.of(1997, 1, 1))
+                        && person.getDateOfBirth().isBefore(LocalDate.of(2006, 1, 1)))
+                .sorted(Comparator.comparing(Person::getRecruitmentGroup))
+                .limit(200)
+                .forEach(System.out::println);
     }
 
     public static void task13() {
