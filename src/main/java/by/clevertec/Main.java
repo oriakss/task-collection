@@ -40,7 +40,12 @@ public class Main {
         task22();
     }
 
+    public static void getTaskNumberMessage(Integer taskNumber) {
+        System.out.println("\nTask #" + taskNumber + '\n');
+    }
+
     public static void task1() {
+        getTaskNumberMessage(1);
         List<Animal> animals = Util.getAnimals();
         animals.stream()
                 .filter(animal -> 10 <= animal.getAge() && 20 >= animal.getAge())
@@ -51,6 +56,7 @@ public class Main {
     }
 
     public static void task2() {
+        getTaskNumberMessage(2);
         List<Animal> animals = Util.getAnimals();
         animals.stream()
                 .filter(animal -> animal.getOrigin().equals("Japanese"))
@@ -64,6 +70,7 @@ public class Main {
     }
 
     public static void task3() {
+        getTaskNumberMessage(3);
         List<Animal> animals = Util.getAnimals();
         animals.stream()
                 .filter(animal -> animal.getAge() > 30)
@@ -74,6 +81,7 @@ public class Main {
     }
 
     public static void task4() {
+        getTaskNumberMessage(4);
         List<Animal> animals = Util.getAnimals();
         long count = animals.stream()
                 .filter(animal -> animal.getGender().equals("Female"))
@@ -82,6 +90,7 @@ public class Main {
     }
 
     public static void task5() {
+        getTaskNumberMessage(5);
         List<Animal> animals = Util.getAnimals();
         boolean ofHungarianOrigin = animals.stream()
                 .filter(animal -> 20 <= animal.getAge() && 30 >= animal.getAge())
@@ -90,6 +99,7 @@ public class Main {
     }
 
     public static void task6() {
+        getTaskNumberMessage(6);
         List<Animal> animals = Util.getAnimals();
         boolean isNotFemaleAndMale = animals.stream()
                 .anyMatch(animal -> !(animal.getGender().equals("Female") || animal.getGender().equals("Male")));
@@ -97,6 +107,7 @@ public class Main {
     }
 
     public static void task7() {
+        getTaskNumberMessage(7);
         List<Animal> animals = Util.getAnimals();
         boolean ofOceaniaOrigin = animals.stream()
                 .anyMatch(animal -> animal.getOrigin().equals("Oceania"));
@@ -104,6 +115,7 @@ public class Main {
     }
 
     public static void task8() {
+        getTaskNumberMessage(8);
         List<Animal> animals = Util.getAnimals();
         animals.stream()
                 .sorted(Comparator.comparing(Animal::getBread))
@@ -113,6 +125,7 @@ public class Main {
     }
 
     public static void task9() {
+        getTaskNumberMessage(9);
         List<Animal> animals = Util.getAnimals();
         animals.stream()
                 .map(Animal::getBread)
@@ -123,6 +136,7 @@ public class Main {
     }
 
     public static void task10() {
+        getTaskNumberMessage(10);
         List<Animal> animals = Util.getAnimals();
         animals.stream()
                 .map(Animal::getAge)
@@ -131,6 +145,7 @@ public class Main {
     }
 
     public static void task11() {
+        getTaskNumberMessage(11);
         List<Animal> animals = Util.getAnimals();
         animals.stream()
                 .filter(animal -> animal.getOrigin().equals("Indonesian"))
@@ -141,6 +156,7 @@ public class Main {
     }
 
     public static void task12() {
+        getTaskNumberMessage(12);
         List<Person> persons = Util.getPersons();
         persons.stream()
                 .filter(person -> person.getGender().equals("Male")
