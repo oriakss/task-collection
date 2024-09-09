@@ -183,8 +183,12 @@ public class Main {
     }
 
     public static void task16() {
+        getTaskNumberMessage(16);
         List<Student> students = Util.getStudents();
-//        students.stream() Продолжить ...
+        students.stream()
+                .filter(student -> student.getAge() <= 18)
+                .sorted(Comparator.comparing(Student::getSurname))
+                .forEach(student -> System.out.println("name: " + student.getSurname() + ", age: " + student.getAge()));
     }
 
     public static void task17() {
