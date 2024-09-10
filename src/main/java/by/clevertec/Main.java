@@ -208,8 +208,15 @@ public class Main {
     }
 
     public static void task19() {
+        getTaskNumberMessage(19);
+        String group = "C-3";
         List<Student> students = Util.getStudents();
-//        students.stream() Продолжить ...
+        List<Examination> examinations = Util.getExaminations();
+        examinations.stream()
+                .filter(examination -> examination.getExam3() > 4)
+                .flatMap(examination -> students.stream()
+                        .filter(student -> student.getGroup().equals(group) && student.getId() == examination.getStudentId()))
+                .forEach(System.out::println);
     }
 
     public static void task20() {
