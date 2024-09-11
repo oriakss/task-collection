@@ -13,9 +13,11 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.minBy;
 
 public class Main {
 
@@ -237,7 +239,10 @@ public class Main {
     }
 
     public static void task22() {
+        getTaskNumberMessage(22);
         List<Student> students = Util.getStudents();
-//        students.stream() Продолжить ...
+        Map<String, Optional<Student>> map = students.stream()
+                .collect(groupingBy(Student::getFaculty, minBy(Comparator.comparing(Student::getAge))));
+        System.out.println(map);
     }
 }
