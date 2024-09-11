@@ -12,6 +12,10 @@ import by.clevertec.util.Util;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
 
 public class Main {
 
@@ -225,8 +229,11 @@ public class Main {
     }
 
     public static void task21() {
+        getTaskNumberMessage(21);
         List<Student> students = Util.getStudents();
-//        students.stream() Продолжить ...
+        Map<String, Long> map = students.stream()
+                .collect(groupingBy(Student::getGroup, counting()));
+        System.out.println(map);
     }
 
     public static void task22() {
