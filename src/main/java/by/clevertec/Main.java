@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static java.util.stream.Collectors.averagingDouble;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.minBy;
@@ -208,9 +209,14 @@ public class Main {
     }
 
     public static void task18() {
+        getTaskNumberMessage(18);
         List<Student> students = Util.getStudents();
-        List<Examination> examinations = Util.getExaminations();
-//        students.stream() Продолжить ...
+        students.stream()
+                .collect(groupingBy(Student::getFaculty, averagingDouble(Student::getAge)))
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .forEach(System.out::println);
     }
 
     public static void task19() {
