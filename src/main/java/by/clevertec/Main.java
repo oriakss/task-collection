@@ -14,11 +14,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import static java.util.stream.Collectors.averagingDouble;
 import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.flatMapping;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.minBy;
+import static java.util.stream.Collectors.toList;
 
 public class Main {
 
@@ -175,8 +178,63 @@ public class Main {
     }
 
     public static void task13() {
+        getTaskNumberMessage(13);
         List<House> houses = Util.getHouses();
-//        houses.stream() Продолжить ...
+        Map<String, List<Person>> map = houses.stream()
+                .collect(groupingBy(House::getBuildingType, flatMapping(house -> house.getPersonList().stream(), toList())));
+        List<Person> priorityPersons = map.get("Hospital");
+
+        if (priorityPersons.size() > 500) {
+            priorityPersons = priorityPersons.subList(0, 500);
+        }
+        if (priorityPersons.size() < 500) {
+            map.remove("Hospital");
+            getNewPriorityPersons(map, priorityPersons.size(), getUnderagePredicate())
+                    .forEach(priorityPersons::addLast);
+        }
+        if (priorityPersons.size() < 500) {
+            getNewPriorityPersons(map, priorityPersons.size(), getFemaleRetiredPredicate())
+                    .forEach(priorityPersons::addLast);
+        }
+        if (priorityPersons.size() < 500) {
+            getNewPriorityPersons(map, priorityPersons.size(), getMaleRetiredPredicate())
+                    .forEach(priorityPersons::addLast);
+        }
+        if (priorityPersons.size() < 500) {
+            getNewPriorityPersons(map, priorityPersons.size(), getOtherPersonsPredicate())
+                    .forEach(priorityPersons::addLast);
+        }
+        priorityPersons.forEach(System.out::println);
+    }
+
+    private static List<Person> getNewPriorityPersons(Map<String, List<Person>> map, int priorityPersonsCount, Predicate<Person> predicate) {
+        return map.values().stream()
+                .flatMap(List::stream)
+                .filter(predicate)
+                .limit(500 - priorityPersonsCount)
+                .toList();
+    }
+
+    private static Predicate<Person> getUnderagePredicate() {
+        return person -> person.getDateOfBirth().isAfter(LocalDate.of(2006, 1, 1));
+    }
+
+    private static Predicate<Person> getFemaleRetiredPredicate() {
+        return person -> person.getDateOfBirth().isBefore(LocalDate.of(1966, 1, 1))
+                && person.getGender().equals("Female");
+    }
+
+    private static Predicate<Person> getMaleRetiredPredicate() {
+        return person -> person.getDateOfBirth().isBefore(LocalDate.of(1961, 1, 1))
+                && person.getGender().equals("Male");
+    }
+
+    private static Predicate<Person> getOtherPersonsPredicate() {
+        return person -> (person.getDateOfBirth().isAfter(LocalDate.of(1961, 1, 1))
+                && person.getDateOfBirth().isBefore(LocalDate.of(1966, 1, 1))
+                && !person.getGender().equals("Female"))
+                || (person.getDateOfBirth().isAfter(LocalDate.of(1966, 1, 1))
+                && person.getDateOfBirth().isBefore(LocalDate.of(2006, 1, 1)));
     }
 
     public static void task14() {
