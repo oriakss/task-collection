@@ -9,6 +9,7 @@ import by.clevertec.model.Person;
 import by.clevertec.model.Student;
 import by.clevertec.util.Util;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
@@ -21,6 +22,7 @@ import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.flatMapping;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.minBy;
+import static java.util.stream.Collectors.partitioningBy;
 import static java.util.stream.Collectors.toList;
 
 public class Main {
@@ -238,8 +240,42 @@ public class Main {
     }
 
     public static void task14() {
+        getTaskNumberMessage(14);
         List<Car> cars = Util.getCars();
-//        cars.stream() Продолжить ...
+
+        Map<Boolean, List<Car>> map1 = cars.stream()
+                .collect(partitioningBy(car -> car.getCarMake().equals("Jaguar") || car.getColor().equals("White")));
+        Map<Boolean, List<Car>> map2 = map1.get(false).stream()
+                .collect(partitioningBy(car -> car.getMass() < 1500 || car.getCarMake().equals("BMW")
+                        || car.getCarMake().equals("Lexus") || car.getCarMake().equals("Chrysler")
+                        || car.getCarMake().equals("Toyota")));
+        Map<Boolean, List<Car>> map3 = map2.get(false).stream()
+                .collect(partitioningBy(car -> (car.getColor().equals("Black") && car.getMass() > 4000)
+                        || car.getCarMake().equals("GMC") || car.getCarMake().equals("Dodge")));
+        Map<Boolean, List<Car>> map4 = map3.get(false).stream()
+                .collect(partitioningBy(car -> car.getReleaseYear() < 1982 || car.getCarModel().equals("Civic")
+                        || car.getCarModel().equals("Cherokee")));
+        Map<Boolean, List<Car>> map5 = map4.get(false).stream()
+                .collect(partitioningBy(car -> !(car.getColor().equals("Red") || car.getColor().equals("Yellow")
+                        || car.getColor().equals("Green") || car.getColor().equals("Blue")) || car.getPrice() > 40000));
+        Map<Boolean, List<Car>> map6 = map5.get(false).stream()
+                .collect(partitioningBy(car -> car.getVin().contains("59")));
+
+        List<BigDecimal> countrySpendingSumList = List.of(getCountrySpendingSum(map1), getCountrySpendingSum(map2),
+                getCountrySpendingSum(map3), getCountrySpendingSum(map4),
+                getCountrySpendingSum(map5), getCountrySpendingSum(map6));
+
+        countrySpendingSumList.forEach(System.out::println);
+        countrySpendingSumList.stream()
+                .reduce(BigDecimal::add)
+                .ifPresent(System.out::println);
+    }
+
+    private static BigDecimal getCountrySpendingSum(Map<Boolean, List<Car>> map) {
+        return new BigDecimal(map.get(true).stream()
+                .mapToInt(Car::getMass)
+                .sum())
+                .multiply(new BigDecimal("0.00714"));
     }
 
     public static void task15() {
