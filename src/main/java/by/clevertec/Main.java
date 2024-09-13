@@ -279,8 +279,17 @@ public class Main {
     }
 
     public static void task15() {
+        getTaskNumberMessage(15);
         List<Flower> flowers = Util.getFlowers();
-//        flowers.stream() Продолжить ...
+        BigDecimal sum = flowers.stream()
+                .sorted(Comparator.comparing(Flower::getOrigin).thenComparing(Flower::getPrice)
+                        .thenComparing(Flower::getWaterConsumptionPerDay).reversed())
+                .filter(flower -> flower.getCommonName().matches("[A-CS-Z].+") && flower.isShadePreferred()
+                        && flower.getFlowerVaseMaterial().stream()
+                        .anyMatch(vaseMaterial -> vaseMaterial.matches("Glass|Aluminum|Steel")))
+                .map(flower -> BigDecimal.valueOf(flower.getPrice() + flower.getWaterConsumptionPerDay() * 1.39 * 360 * 5))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        System.out.println(sum);
     }
 
     public static void task16() {
