@@ -335,8 +335,23 @@ public class Main {
     }
 
     public static void task20() {
+        getTaskNumberMessage(20);
         List<Student> students = Util.getStudents();
-//        students.stream() Продолжить ...
+        List<Examination> examinations = Util.getExaminations();
+
+        Map<String, List<Integer>> map = students.stream()
+                .collect(groupingBy(Student::getFaculty, flatMapping(student -> examinations.stream()
+                        .filter(examination -> examination.getStudentId() == student.getId())
+                        .map(Examination::getExam1), toList())));
+
+        map.entrySet().stream()
+                .map(entry -> Map.of(entry.getKey(), entry.getValue().stream()
+                        .collect(averagingDouble(value -> value))))
+                .max(Comparator.comparing(facultyAvgMap -> facultyAvgMap.values().stream()
+                        .findFirst()
+                        .get()
+                ))
+                .ifPresent(System.out::println);
     }
 
     public static void task21() {
